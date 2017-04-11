@@ -1,12 +1,13 @@
 #include "libgfx.h"
 
-void	ft_drawpoint(void *mlx, void *win, t_2dp point, t_color clr)
+void	ft_drawpoint(void *mlx, void *win, t_2dp *point, t_rgb *clr)
 {
-	if ((point->x > 0 && point->y > 0) && (x < W_WIDTH && y < W_HEIGHT))
-		mlx_pixel_put(mlx, win, point->x, point->y, (unsigned int)clr);
+	if ((point->x > 0 && point->y > 0) && (point->x < W_WIDTH && point->y
+		< W_HEIGHT))
+		mlx_pixel_put(mlx, win, point->x, point->y, (t_color)&*clr);
 }
 
-static int	swap_vars(t_3dp *p0, t_3dp *p1)
+int	swap_vars(t_3dp *p0, t_3dp *p1)
 {
 	float temp;
 
@@ -21,12 +22,15 @@ static int	swap_vars(t_3dp *p0, t_3dp *p1)
 	return (1);
 }
 
-void	ft_drawline(void *mlx, void *win, t_line line)
+
+t_line	*ft_linenew(t_3dp a, t_3dp b, t_rgb color_a, t_rgb color_b)
 {
-	float	delta[3];
-	float	error;
-	float	slope;
-	int		dir;
+	t_line	*new;
 
-
+	new = ft_memalloc(sizeof(t_line));
+	new->a = a;
+	new->b = b;
+	new->color_a = color_a;
+	new->color_b = color_b;
+	return (new);
 }

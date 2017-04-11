@@ -1,15 +1,22 @@
 #include "libgfx.h"
 
+//color = 0xAABBCC or AABBCC
 t_rgb	*ft_colornew(const char *color)
 {
 	t_rgb	*new;
+	t_color	tmp;
 
+	if(!(tmp = ft_hextoi(color)) || !ft_ishexstr(color))
+		return (0);
 	new = ft_memalloc(sizeof(t_rgb));
-	new->r =
-	return (0);
+	new->r = tmp >> 16;
+	new->g = tmp >> 8;
+	new->b = tmp;
+	new->a = 0;
+	return (new);
 }
 
-t_rgb	ft_colormix(t_rgba color_a, t_rgba color_b)
+t_rgb	ft_colormix(t_rgb color_a, t_rgb color_b)
 {
 	t_rgb	new;
 
@@ -19,6 +26,7 @@ t_rgb	ft_colormix(t_rgba color_a, t_rgba color_b)
 	return (new);
 }
 
+/*
 t_rgb	ft_(t_line, float z)
 {
 	t_rgb	new;
@@ -27,3 +35,4 @@ t_rgb	ft_(t_line, float z)
 		return (0);
 
 }
+*/
