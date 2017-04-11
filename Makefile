@@ -3,16 +3,18 @@ NAME = libgfx.a
 CC = gcc -Wall -Werror -Wextra
 RM = /bin/rm
 
+SDIR = ./src/
+ODIR = ./obj/
 LFTD = ../libft/
 ILFT = -I../libft/inc
 IDIR = -Iinc
 INC = $(IDIR) $(ILFT)
 LNK = -L$(LFTD) -lft
 
-SRC = colors.c drawing.c image.c keys.c	\
+SRCN = colors.c drawing.c image.c keys.c	\
 	mtx_funct.c mtx.c vertex.c
-OBJ = $(SRC:.c=.o)
-ODIR = ./obj/
+SRC = $(addprefix $(SDIR),$(SRCN))
+OBJ = $(addprefix $(ODIR),$(SRC:.c=.o))
 
 all: $(NAME)
 	ar rc $(NAME) $(OBJ)
