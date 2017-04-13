@@ -13,10 +13,10 @@ void	bzero_mtx(float mtx[4][4])
 void	ft_mtxidmake(float mtx[4][4])
 {
 	bzero_mtx(mtx);
-	matrix[0][0] = 1;
-	matrix[1][1] = 1;
-	matrix[2][2] = 1;
-	matrix[3][3] = 1;
+	mtx[0][0] = 1;
+	mtx[1][1] = 1;
+	mtx[2][2] = 1;
+	mtx[3][3] = 1;
 }
 
 void	ft_mtxcpy(float src[4][4], float dst[4][4])
@@ -29,7 +29,10 @@ void	ft_mtxcpy(float src[4][4], float dst[4][4])
 	{
 		y = 0;
 		while (y < 4)
-			dst[x][y] = src[x][y++];
+		{
+			dst[x][y] = src[x][y];
+			y++;
+		}
 		x++;
 	}
 }
@@ -50,12 +53,12 @@ void	ft_mtxmult(float m1[4][4], float m2[4][4], float dst[4][4])
 	}
 }
 
-void	ft_mtxmultvec(t_3d *src, float mtx[4][4], t_3d *dst)
+void	ft_mtxmultvec(t_3dp *src, float mtx[4][4], t_3dp *dst)
 {
-	dst->x = s->x * mtx[0][0] + src->y * mtx[1][0] +
-		s->z * mtx[2][0] + mtx[3][0];
-	dst->y = s->x * mtx[0][1] + src->y * mtx[1][1] +
-		s->z * mtx[2][1] + mtx[3][1];
-	dst->z = s->x * mtx[0][2] + src->y * mtx[1][2] +
-		s->z * mtx[2][2] + mtx[3][2];
+	dst->x = src->x * mtx[0][0] + src->y * mtx[1][0] +
+		src->z * mtx[2][0] + mtx[3][0];
+	dst->y = src->x * mtx[0][1] + src->y * mtx[1][1] +
+		src->z * mtx[2][1] + mtx[3][1];
+	dst->z = src->x * mtx[0][2] + src->y * mtx[1][2] +
+		src->z * mtx[2][2] + mtx[3][2];
 }

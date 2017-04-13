@@ -1,6 +1,6 @@
 #include "libgfx.h"
 
-void	ft_mtx_translate(float mtx[4][4], t_3dp point)
+void	ft_mtx_translate(float mtx[4][4], t_3dp *point)
 {
 	float	tmp[4][4];
 
@@ -11,11 +11,10 @@ void	ft_mtx_translate(float mtx[4][4], t_3dp point)
 	ft_mtxmult(mtx, tmp, mtx);
 }
 
-void	ft_mtx_scale(float mtx[4][4], t_3dp point)
+void	ft_mtx_scale(float mtx[4][4], t_3dp *point)
 {
 	float	tmp[4][4];
 
-	i = 0;
 	bzero_mtx(tmp);
 	tmp[0][0] = point->x;
 	tmp[1][1] = point->y;
@@ -24,7 +23,7 @@ void	ft_mtx_scale(float mtx[4][4], t_3dp point)
 	ft_mtxmult(mtx, tmp, mtx);
 }
 
-void	ft_mtx_rotate(float mtx[4][4], t_3dp point)
+void	ft_mtx_rotate(float mtx[4][4], t_3dp *point)
 {
 	float	x_mtx[4][4];
 	float	y_mtx[4][4];

@@ -23,13 +23,13 @@ int	swap_vars(t_3dp *p0, t_3dp *p1)
 }
 
 
-t_line	*ft_linenew(t_3dp a, t_3dp b, t_rgb color_a, t_rgb color_b)
+t_line	*ft_linenew(t_3dp *a, t_3dp *b, t_rgb *color_a, t_rgb *color_b)
 {
 	t_line	*new;
 
 	new = ft_memalloc(sizeof(t_line));
-	new->a = a;
-	new->b = b;
+	new->point_a = a;
+	new->point_b = b;
 	new->color_a = color_a;
 	new->color_b = color_b;
 	return (new);
