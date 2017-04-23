@@ -2,24 +2,64 @@
 
 t_mlx	*init_mlx(size_t w_width, size_t w_height, const char *name)
 {
-	t_data	*frame_data;
 	t_mlx	*ret;
-	void	*id;
-	void	*win;
-	void	*img;
 
-	frame_data = ft_memalloc(sizeof(t_data));
-	ret = ft_memalloc(sizeof(t_mlx));
-	id = mlx_id();
-	win = mlx_win(w_width, w_height, name);
-	img = mlx_frame();
-	if (!id || !win || !img)
+	if (!(ret = ft_memalloc(sizeof(t_mlx))))
+		return (0);
+	ret->id = mlx_init();
+	ret->win = mlx_new_window(ret->id, w_width, w_height, (char *)name);
+	ret->img = mlx_new_image(ret->id, w_width, w_height);
+	if (!ret->id || !ret->win || !ret->img)
 	{
-		ft_memdel(&frame_data);
-		ft_memdel(&ret);
+		ft_memdel((void **)ret);
 		return (0);
 	}
-	ret->id = id;
-	ret->win = win;
-	ret->img = img;
+	ret->frame = ft_memalloc(sizeof(t_data));
+	ret->trans = ft_memalloc(sizeof(t_mods));
+	ret->events = ft_memalloc(sizeof(t_keys));
+	if (!ret->frame || !ret->trans || !ret->events)
+	{
+		ft_memdel((void **)ret);
+		return (0);
+	}
+	return (ret);
+}
+
+t_3dp	init_3dp(float x, float y, float z)
+{
+	t_3dp	point;
+
+	point.x = x;
+	point.y = y;
+	point.z = z;
+	return (point);
+}
+
+t_2dp	init_2dp(float x, float y)
+{
+	t_2dp	point;
+
+	point.x = x;
+	point.y = y;
+	return (point);
+}
+
+t_line	init_line(t_3dp *a, t_3dp *b)
+{
+	t_line	line;
+
+	line.point_a = *a;
+	line.point_b = *b;
+	return (line);
+}
+
+t_rgb	init_rgb(t_color col)
+{
+	t_rgb	new;
+
+	new.r = col >> 16;
+	new.g = col >> 8;
+	new.b = col;
+	new.a = 0;
+	return (new);
 }

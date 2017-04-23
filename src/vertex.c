@@ -21,7 +21,7 @@ t_3dp		*ft_3dpnew(float x, float y, float z)
 	return (point);
 }
 
-t_vtx		*ft_vtxnew(t_3dp local, t_color	*color)
+t_vtx		*ft_vtxnew(t_3dp *local)
 {
 	t_vtx	*new;
 
@@ -29,6 +29,6 @@ t_vtx		*ft_vtxnew(t_3dp local, t_color	*color)
 	new->local = ft_3dpnew(local->x, local->y, local->z);
 	new->world = ft_3dpnew(0, 0, 0);
 	new->align = ft_3dpnew(0, 0, 0);
-	new->rgb = color;
+	new->proj = ft_3dpnew(0, 0, 0);
 	return (new);
 }

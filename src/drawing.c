@@ -1,13 +1,7 @@
 #include "libgfx.h"
+#include <stdlib.h>
 
-void	ft_drawpoint(void *mlx, void *win, t_2dp *point, t_rgb *clr)
-{
-	if ((point->x > 0 && point->y > 0) && (point->x < W_WIDTH && point->y
-		< W_HEIGHT))
-		mlx_pixel_put(mlx, win, point->x, point->y, (t_color)&*clr);
-}
-
-int	swap_vars(t_3dp *p0, t_3dp *p1)
+static int	swap_vars(t_3dp *p0, t_3dp *p1)
 {
 	float temp;
 
@@ -22,15 +16,71 @@ int	swap_vars(t_3dp *p0, t_3dp *p1)
 	return (1);
 }
 
-
-t_line	*ft_linenew(t_3dp *a, t_3dp *b, t_rgb *color_a, t_rgb *color_b)
+static int	check_deltas(t_3dp *p0, t_3dp *p1, float delta[3], int dir)
 {
-	t_line	*new;
+	t_3dp	temp;
 
-	new = ft_memalloc(sizeof(t_line));
-	new->point_a = a;
-	new->point_b = b;
-	new->color_a = color_a;
-	new->color_b = color_b;
-	return (new);
+	if (p0->x == 4.2E7 || p1->x == 4.2E7)
+		return (0);
+	if ((p0->x > p1->x && p0->x > (dir ? W_HEIGHT : W_WIDTH) / 2) ||
+		(p0->x < p1->x && p0->x < (dir ? W_HEIGHT : W_WIDTH) / 2))
+	{
+		temp = *p0;
+		*p0 = *p1;
+		*p1 = temp;
+	}
+	delta[0] = p1->x - p0->x;
+	if (p0->y == 4.2E7 || p1->y == 4.2E7)
+		return (0);
+	delta[1] = p1->y - p0->y;
+	delta[2] = p1->z - p0->z;
+	return (1);
+}
+
+int			ft_drawpixel(t_mlx *mlx, t_3dp point)
+{
+	t_data		*frame;
+	float		which;
+	float		dist;
+	int			i;
+
+	i = 0;
+	frame = mlx->frame;
+	if (point.x > 0 && point.y > 0 && point.x < W_WIDTH && point.y < W_HEIGHT)
+	{
+		i = ((int)point.x * 4) + ((int)point.y * (mlx->frame->line_size));
+		dist = ((point.z) - frame->z_min) / ((frame->z_max) - frame->z_min);
+		which = (dist * (RGB_STEPS));
+		ft_memcpy(&(frame->pixels[i]), &(frame->tab[abs((int)which - 1)]), 4);
+		return (1);
+	}
+	return (0);
+}
+
+void		ft_drawline(t_mlx *mlx, t_line line)
+{
+	float	delta[3];
+	float	error;
+	float	slope;
+	int		dir;
+
+	dir = swap_vars(&(line.point_a), &(line.point_b));
+	if (!check_deltas(&(line.point_a), &(line.point_b), delta, dir))
+		return ;
+	slope = fabs(delta[1] / delta[0]);
+	error = -1.0;
+	while ((int)line.point_a.x != (int)line.point_b.x)
+	{
+		if (!ft_drawpixel(mlx, init_3dp(dir ? line.point_a.y : line.point_a.x,
+				dir ? line.point_a.x : line.point_a.y, line.point_a.z)))
+			return ;
+		error += slope;
+		if (error >= 0.0)
+		{
+			line.point_a.y += (line.point_a.y > line.point_b.y) ? -1.0 : 1.0;
+			error -= 1.0;
+		}
+		line.point_a.z += delta[2] / fabs(delta[0]);
+		line.point_a.x += (line.point_a.x > line.point_b.x) ? -1.0 : 1.0;
+	}
 }

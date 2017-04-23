@@ -1,12 +1,11 @@
 #include "libgfx.h"
 
-//color = 0xAABBCC or AABBCC
-t_rgb	*ft_colornew(const char *color)
+t_rgb			*ft_colornew(const char *color)
 {
 	t_rgb	*new;
 	t_color	tmp;
 
-	if(!(tmp = ft_hextoi(color)) || !ft_ishexstr(color))
+	if (!(tmp = ft_hextoi(color)) || !ft_ishexstr(color))
 		return (0);
 	new = ft_memalloc(sizeof(t_rgb));
 	new->r = tmp >> 16;
@@ -16,7 +15,7 @@ t_rgb	*ft_colornew(const char *color)
 	return (new);
 }
 
-t_rgb	ft_colormix(t_rgb color_a, t_rgb color_b)
+t_rgb			ft_colormix(t_rgb color_a, t_rgb color_b)
 {
 	t_rgb	new;
 
@@ -26,13 +25,32 @@ t_rgb	ft_colormix(t_rgb color_a, t_rgb color_b)
 	return (new);
 }
 
-/*
-t_rgb	ft_(t_line, float z)
+t_color			ft_rgbtoint(t_rgb col)
 {
-	t_rgb	new;
-
-	if (!z_min || !z_max)
-		return (0);
-
+	return (((int)col.r << 16) + ((int)col.g << 8) + (int)col.b);
 }
-*/
+
+static t_color	gen_color(t_rgb col_a, t_rgb col_b, size_t step, int col_n)
+{
+	t_rgb	ret;
+
+	ret.r = (col_b.r - col_a.r) * step / col_n + col_a.r;
+	ret.g = (col_b.g - col_a.g) * step / col_n + col_a.g;
+	ret.b = (col_b.b - col_a.b) * step / col_n + col_a.b;
+	return (ft_rgbtoint(ret));
+}
+
+t_color			*new_colortab(t_rgb *scheme, int num)
+{
+	t_color		*tab;
+	int			i;
+
+	i = 0;
+	tab = ft_memalloc(sizeof(t_color) * num);
+	while (i < num)
+	{
+		tab[i] = gen_color(*scheme, *(scheme + 1), i, num);
+		i++;
+	}
+	return (tab);
+}
