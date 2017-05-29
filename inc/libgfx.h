@@ -1,8 +1,8 @@
 #ifndef LIBGFX_H
 # define LIBGFX_H
 
-# include "libft.h"
-# include "gfx_keys.h"
+# include <libft.h>
+# include <gfx_keys.h>
 # include <mlx.h>
 # include <math.h>
 
