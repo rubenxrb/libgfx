@@ -77,19 +77,27 @@ typedef struct	s_mlx
 	t_keys		*events;
 }				t_mlx;
 
+/*	mlx	*/
 t_mlx			*init_mlx(size_t w_width, size_t w_height, const char *name);
-t_3dp			init_3dp(float x, float y, float z);
-t_2dp			init_2dp(float x, float y);
-t_line			init_line(t_3dp *a, t_3dp *b);
+void			ft_renderframe(t_mlx *mlx);
+
+/*	colors	*/
 t_rgb			init_rgb(t_color col);
 t_rgb			*ft_colornew(const char *color);
 t_rgb			ft_colormix(t_rgb color_a, t_rgb color_b);
 t_color			ft_rgbtoint(t_rgb col);
 t_color			*new_colortab(t_rgb *scheme, int num);
-void			ft_renderframe(t_mlx *mlx);
+
+/*	points	*/
+t_3dp			init_3dp(float x, float y, float z);
+t_2dp			init_2dp(float x, float y);
+t_line			init_line(t_3dp *a, t_3dp *b);
 t_2dp			*ft_2dpnew(float x, float y);
 t_3dp			*ft_3dpnew(float x, float y, float z);
 t_vtx			*ft_vtxnew(t_3dp *local);
+
+/*	drawing	*/
+
 int				ft_drawpixel(t_mlx *mlx, t_3dp point);
 void			ft_drawline(t_mlx *mlx, t_line line);
 void			bzero_mtx(float mtx[4][4]);
@@ -100,6 +108,8 @@ void			ft_mtxmultvec(t_3dp *src, float mtx[4][4], t_3dp *dst);
 void			ft_mtx_translate(float mtx[4][4], t_3dp *point);
 void			ft_mtx_scale(float mtx[4][4], t_3dp *point);
 void			ft_mtx_rotate(float mtx[4][4], t_3dp *point);
+
+/*	hooks	*/
 int				press_hook(int key, t_mlx *mlx);
 int				release_hook(int key, t_mlx *mlx);
 int				exit_hook();

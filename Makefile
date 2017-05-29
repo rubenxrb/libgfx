@@ -7,9 +7,7 @@ SDIR = ./src/
 ODIR = ./obj/
 LFTD = ../libft/
 LFT = ../libft/libft.a
-ILFT = -I../libft/inc
-IMLX = -I../minilibx/
-IDIR = -Iinc
+IDIR = -Iinc -I$(LFTD)inc -I$(LFTD)src/get_next_line/inc -I../minilibx
 INC = $(IDIR) $(ILFT)
 LNK = -L$(LFTD) -lft
 
@@ -31,7 +29,7 @@ all: $(NAME)
 
 $(NAME):mkobjd $(OBJ)
 $(ODIR)%.o:$(SDIR)%.c
-	@$(CC) $(IDIR) $(ILFT) $(IMLX) -o $@ -c $^
+	@$(CC) $(IDIR) -o $@ -c $^
 
 $(LFT):
 	make -s -C $(LFTD)
