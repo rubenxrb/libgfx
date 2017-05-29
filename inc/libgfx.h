@@ -97,9 +97,10 @@ t_3dp			*ft_3dpnew(float x, float y, float z);
 t_vtx			*ft_vtxnew(t_3dp *local);
 
 /*	drawing	*/
-
 int				ft_drawpixel(t_mlx *mlx, t_3dp point);
 void			ft_drawline(t_mlx *mlx, t_line line);
+
+/*	math	*/
 void			bzero_mtx(float mtx[4][4]);
 void			ft_mtxidmake(float mtx[4][4]);
 void			ft_mtxcpy(float src[4][4], float dst[4][4]);
